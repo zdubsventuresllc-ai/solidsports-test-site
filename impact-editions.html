@@ -7,7 +7,7 @@
 <meta name="description" content="Every Impact Edition: 200 units, one cause, full transparency. Limited-edition composite softball bats that fund what matters. Browse the collection.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,200;1,6..72,300&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,200;1,6..72,300&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -33,13 +33,25 @@
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
   }
 
   h1, h2, h3, h4 {
@@ -59,7 +71,7 @@
 
   /* ── Utility ── */
   .inter-label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     font-weight: 600;
@@ -93,7 +105,7 @@
     background: var(--copper);
     color: var(--bone);
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 600;
     font-size: 0.7rem;
     letter-spacing: 0.2em;
@@ -111,7 +123,7 @@
 
   /* ── Micro Label ── */
   .micro-label {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -158,7 +170,7 @@
     box-shadow: 0 24px 48px rgba(0,0,0,0.3);
   }
   .nav-wordmark {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
     letter-spacing: 0.25em;
@@ -348,7 +360,7 @@
     justify-content: center;
   }
   .edition-number-badge {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.55rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -550,7 +562,7 @@
     justify-content: center;
   }
   .teaser-badge {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.55rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -639,7 +651,7 @@
     z-index: 1;
   }
   .mystery-badge {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 0.55rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -742,7 +754,7 @@
     border-right: none;
     color: var(--bone);
     font-size: 0.6rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -760,7 +772,7 @@
     background: var(--copper);
     color: var(--bone);
     border: 1px solid var(--copper);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
     font-size: 0.6rem;
     letter-spacing: 0.15em;
@@ -790,7 +802,7 @@
     background: var(--bg-elevated);
   }
   .footer-wordmark {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-weight: 700;
     font-size: 1.8rem;
     letter-spacing: 0.3em;
@@ -902,7 +914,7 @@
 <section class="how-it-works">
   <div class="container">
     <div class="micro-label micro-label--center" style="margin-bottom:64px;">How It Works</div>
-    <div class="how-grid fade-up">
+    <div class="how-grid fade-up" data-stagger>
       <div class="how-card">
         <div class="how-number">01</div>
         <div class="how-title">One Matte Black Base</div>
@@ -935,7 +947,7 @@
       <p class="edition-cause"><strong>62% of kids are priced out of youth sports.</strong> Every bat funds registration fee grants for kids from income-restricted families. Every Kid Sports has helped 80,000+ athletes get on the field.</p>
       <div class="edition-price">$299</div>
 
-      <div class="fade-up">
+      <div data-stagger>
         <div class="spec-row">
           <span class="spec-label">Length</span>
           <span class="spec-value">34"</span>
@@ -1080,15 +1092,37 @@
 
 <!-- ═══════════ SCROLL ANIMATIONS ═══════════ -->
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Staggered children
+const staggerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const children = entry.target.children;
+      Array.from(children).forEach((child, i) => {
+        child.style.opacity = '0';
+        child.style.transform = 'translateY(20px)';
+        child.style.transition = `opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${i * 0.08}s, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${i * 0.08}s`;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            child.style.opacity = '1';
+            child.style.transform = 'translateY(0)';
+          });
+        });
+      });
+      staggerObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('[data-stagger]').forEach(el => staggerObserver.observe(el));
 </script>
 
 </body>
