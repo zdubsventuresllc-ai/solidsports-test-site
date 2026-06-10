@@ -9,7 +9,7 @@ import EmailCapture from '../../components/EmailCapture.astro';
 import FooterTicker from '../../components/FooterTicker.astro';
 import {
   editions, raisedDisplay, serialLine, nextSerial,
-  UNITS_PER_EDITION, DONATION_PER_BAT,
+  UNITS_PER_EDITION, DONATION_PER_BAT, SHOPIFY,
 } from '../../data/editions.js';
 import { shop } from '../../lib/shop.js';
 
@@ -69,7 +69,15 @@ const specs = [
           </div>
 
           {isLive ? (
-            <a class="btn-pull" href={shop.checkoutUrl(ed.handle)} id="reserve">
+            <a
+              class="btn-pull"
+              href={shop.checkoutUrl(ed.handle)}
+              id="reserve"
+              data-buy
+              data-domain={SHOPIFY.live ? SHOPIFY.domain : null}
+              data-token={SHOPIFY.live ? SHOPIFY.storefrontToken : null}
+              data-variant={ed.variantId}
+            >
               PULL NO. {nextSerial(ed)} → ${product.price}
             </a>
           ) : (
@@ -98,6 +106,43 @@ const specs = [
     <FooterTicker />
   </main>
 </Base>
+
+<script>
+  // Live checkout: create a Shopify cart for this edition's variant and hand
+  // off to Shopify-hosted checkout (handoff §8: checkout is never custom).
+  const btn = document.querySelector('[data-buy]');
+  if (btn && btn.dataset.domain && btn.dataset.variant) {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      btn.style.opacity = '0.6';
+      try {
+        const resp = await fetch(`https://${btn.dataset.domain}/api/2026-04/graphql.json`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Storefront-Access-Token': btn.dataset.token,
+          },
+          body: JSON.stringify({
+            query: `mutation cartCreate($lines: [CartLineInput!]!) {
+              cartCreate(input: { lines: $lines }) {
+                cart { checkoutUrl }
+                userErrors { message }
+              }
+            }`,
+            variables: { lines: [{ merchandiseId: btn.dataset.variant, quantity: 1 }] },
+          }),
+        });
+        const { data } = await resp.json();
+        const url = data?.cartCreate?.cart?.checkoutUrl;
+        if (url) { window.location.href = url; return; }
+        throw new Error(data?.cartCreate?.userErrors?.[0]?.message || 'cart failed');
+      } catch (err) {
+        console.error('checkout handoff failed', err);
+        btn.style.opacity = '1';
+      }
+    });
+  }
+</script>
 
 <style>
   .ed-hero {

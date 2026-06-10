@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PUBLIC_BASE_PATH: /solidsports-test-site
+      # Storefront API public token — designed for client-side exposure
+      PUBLIC_SHOPIFY_DOMAIN: bttbzw-e1.myshopify.com
+      PUBLIC_SHOPIFY_STOREFRONT_TOKEN: 26f23ddd36b317ca9190573597c0dca4
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

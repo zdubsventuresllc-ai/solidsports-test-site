@@ -70,6 +70,58 @@ export const editions = [
   },
 ];
 
+// ── live Shopify overlay (build-time) ─────────────────────────
+// When the Storefront API env vars are present, pull counts, prices, and
+// variant IDs come from the live store at build time. Without them (or on
+// any fetch failure) the placeholder numbers above stand — pages never break.
+const SF_DOMAIN =
+  (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_DOMAIN) ||
+  (typeof process !== 'undefined' && process.env?.PUBLIC_SHOPIFY_DOMAIN);
+// build-time fetch prefers the private (server) token; the public token is
+// the fallback and is what ships to the browser for cart creation
+const SF_TOKEN =
+  (typeof import.meta !== 'undefined' && import.meta.env?.SHOPIFY_PRIVATE_STOREFRONT_TOKEN) ||
+  (typeof process !== 'undefined' && process.env?.SHOPIFY_PRIVATE_STOREFRONT_TOKEN) ||
+  (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_STOREFRONT_TOKEN) ||
+  (typeof process !== 'undefined' && process.env?.PUBLIC_SHOPIFY_STOREFRONT_TOKEN);
+
+// the PUBLIC token is the only one that may reach the browser (buy buttons)
+const SF_PUBLIC_TOKEN =
+  (typeof import.meta !== 'undefined' && import.meta.env?.PUBLIC_SHOPIFY_STOREFRONT_TOKEN) ||
+  (typeof process !== 'undefined' && process.env?.PUBLIC_SHOPIFY_STOREFRONT_TOKEN);
+
+export const SHOPIFY = { domain: SF_DOMAIN || null, storefrontToken: SF_PUBLIC_TOKEN || null, live: false };
+
+if (SF_DOMAIN && SF_TOKEN) {
+  try {
+    const sellable = editions.filter((e) => e.handle);
+    const fields = 'handle variants(first: 1) { nodes { id price { amount } quantityAvailable } }';
+    const query = '{' + sellable.map((e, i) => `p${i}: product(handle: "${e.handle}") { ${fields} }`).join(' ') + '}';
+    // private tokens (shpat_) authenticate with a different header than public ones
+    const authHeader = SF_TOKEN.startsWith('shpat_')
+      ? { 'Shopify-Storefront-Private-Token': SF_TOKEN }
+      : { 'X-Shopify-Storefront-Access-Token': SF_TOKEN };
+    const resp = await fetch(`https://${SF_DOMAIN}/api/2026-04/graphql.json`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...authHeader },
+      body: JSON.stringify({ query }),
+    });
+    const { data } = await resp.json();
+    if (data) {
+      sellable.forEach((ed, i) => {
+        const v = data[`p${i}`]?.variants?.nodes?.[0];
+        if (!v) return;
+        ed.pulled = UNITS_PER_EDITION - v.quantityAvailable;
+        ed.price = Math.round(parseFloat(v.price.amount));
+        ed.variantId = v.id;
+      });
+      SHOPIFY.live = true;
+    }
+  } catch {
+    // offline/build without store access — placeholders stand
+  }
+}
+
 // ── derived helpers — all display numbers route through these ──
 
 const usd = (n) => '$' + n.toLocaleString('en-US');
