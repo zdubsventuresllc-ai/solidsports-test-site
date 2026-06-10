@@ -4,6 +4,7 @@
 // → hologram corner → edition stamp → rotated status stamp → gradient
 // nameplate → SOLID bug on the top edge.
 import { serialLine, raisedDisplay } from '../data/editions.js';
+import { href } from '../lib/url.js';
 
 const {
   ed,            // edition object from editions.js
@@ -37,7 +38,7 @@ const nameplateSize = Math.round(w / 14);
     <div class="card-accent-frame">
       <div class="card-face">
         <div class="card-photo">
-          <img src={ed.subjectImage} alt={`Edition ${ed.number} — ${ed.cause}`} loading="lazy" />
+          <img src={href(ed.subjectImage)} alt={`Edition ${ed.number} — ${ed.cause}`} loading="lazy" />
           <div class="card-scanlines"></div>
           <div class="card-holo"></div>
           <div class="card-ed-stamp">ED. {ed.number}</div>

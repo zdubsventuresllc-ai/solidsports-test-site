@@ -1,5 +1,6 @@
 ---
 import '../styles/tokens.css';
+import { href } from '../lib/url.js';
 
 const { title = 'SOLID. — Rookie Card, Rookie Cause', description = 'Numbered editions of 200 bats. Every bat ships with its numbered card. Every edition funds a cause — $25 a bat, receipts on file.' } = Astro.props;
 ---
@@ -10,7 +11,7 @@ const { title = 'SOLID. — Rookie Card, Rookie Cause', description = 'Numbered 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" type="image/svg+xml" href="/brand/solid-bug.svg" />
+    <link rel="icon" type="image/svg+xml" href={href('/brand/solid-bug.svg')} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Alfa+Slab+One&family=Bungee&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />

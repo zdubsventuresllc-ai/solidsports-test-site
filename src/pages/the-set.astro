@@ -7,6 +7,7 @@ import Card from '../components/Card.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import FooterTicker from '../components/FooterTicker.astro';
 import { editions, totalRaisedDisplay, setProgress } from '../data/editions.js';
+import { href } from '../lib/url.js';
 
 const tilts = [-2, 1, -1, 2];
 ---
@@ -30,7 +31,7 @@ const tilts = [-2, 1, -1, 2];
         {editions.map((ed, i) => (
           <div class="set-slot">
             {ed.handle ? (
-              <a href={`/editions/${ed.number}`}>
+              <a href={href(`/editions/${ed.number}`)}>
                 <Card ed={ed} size="md" tilt={tilts[i]} grayscale={ed.status === 'SOLD'} />
               </a>
             ) : (

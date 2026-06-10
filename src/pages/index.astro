@@ -11,6 +11,7 @@ import {
   editions, liveEdition, nextSerial, totalRaisedDisplay, totalPulled,
   serial, UNITS_PER_EDITION,
 } from '../data/editions.js';
+import { href } from '../lib/url.js';
 
 const live = liveEdition();
 const releasedCount = editions.filter((e) => e.status !== 'VOTE').length;
@@ -30,7 +31,7 @@ const stats = [
 
     {/* HERO — the ONE stadium-black section on this page */}
     <section class="hero">
-      <img class="hero-photo" src="/assets/lifestyle_dugout.png" alt="" />
+      <img class="hero-photo" src={href('/assets/lifestyle_dugout.png')} alt="" />
 
       <div class="hero-numeral" aria-hidden="true">{live.number}</div>
 
@@ -45,7 +46,7 @@ const stats = [
           cause is for. The card ships in the box.
         </p>
         <div class="hero-ctas">
-          <a class="btn-pull" href={`/editions/${live.number}`}>PULL NO. {nextSerial(live)} →</a>
+          <a class="btn-pull" href={href(`/editions/${live.number}`)}>PULL NO. {nextSerial(live)} →</a>
           <a class="btn-roster" href="#roster">SEE THE ROSTER</a>
         </div>
       </div>
@@ -69,7 +70,7 @@ const stats = [
       </div>
       <div class="roster-binder">
         {editions.map((ed, i) => (
-          <a href={ed.handle ? `/editions/${ed.number}` : '/the-set'} class="roster-card-link">
+          <a href={href(ed.handle ? `/editions/${ed.number}` : '/the-set')} class="roster-card-link">
             <Card ed={ed} size="sm" tilt={tilts[i]} />
           </a>
         ))}

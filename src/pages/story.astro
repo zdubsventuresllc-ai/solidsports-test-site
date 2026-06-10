@@ -6,6 +6,7 @@ import Nav from '../components/Nav.astro';
 import QuoteBlock from '../components/QuoteBlock.astro';
 import EmailCapture from '../components/EmailCapture.astro';
 import FooterTicker from '../components/FooterTicker.astro';
+import { href } from '../lib/url.js';
 ---
 <Base title="SOLID. — Story">
   <main>
@@ -13,7 +14,7 @@ import FooterTicker from '../components/FooterTicker.astro';
 
     {/* the ONE stadium-black section on this page */}
     <section class="story-hero">
-      <img class="story-photo" src="/assets/lifestyle_field.png" alt="" />
+      <img class="story-photo" src={href('/assets/lifestyle_field.png')} alt="" />
       <div class="story-hero-copy">
         <div class="story-eyebrow">FROM THE DUGOUT ▸ VACAVILLE, CALIFORNIA</div>
         <h1>A FATHER, A SON,<br />AND A BINDER OF CARDS.</h1>

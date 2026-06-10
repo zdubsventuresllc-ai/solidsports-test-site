@@ -1,20 +1,21 @@
 ---
 import Logo from './Logo.astro';
 import { totalRaisedDisplay, setProgress, liveEdition } from '../data/editions.js';
+import { href } from '../lib/url.js';
 
 const live = liveEdition();
 const { current = '' } = Astro.props;
 ---
 <nav>
   <span class="nav-links">
-    <a href="/" aria-label="Solid home"><Logo ground="light" size="16px" /></a>
-    <a href="/the-set" class:list={['nav-link', { active: current === 'the-set' }]}>The Set</a>
-    <a href="/#roster" class="nav-link">The Roster</a>
-    <a href="/story" class:list={['nav-link', { active: current === 'story' }]}>Story</a>
+    <a href={href('/')} aria-label="Solid home"><Logo ground="light" size="16px" /></a>
+    <a href={href('/the-set')} class:list={['nav-link', { active: current === 'the-set' }]}>The Set</a>
+    <a href={href('/') + '#roster'} class="nav-link">The Roster</a>
+    <a href={href('/story')} class:list={['nav-link', { active: current === 'story' }]}>Story</a>
   </span>
   <span class="nav-right">
     <span class="nav-ticker">{totalRaisedDisplay()} RAISED · {setProgress()}</span>
-    {live && <a class="nav-cta" href={`/editions/${live.number}`}>RESERVE {live.number}</a>}
+    {live && <a class="nav-cta" href={href(`/editions/${live.number}`)}>RESERVE {live.number}</a>}
   </span>
 </nav>
 
