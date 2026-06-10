@@ -1,0 +1,318 @@
+---
+// HOME — 1:1 port of ProcardStadiumHome, artboard B "Powder Inverted" (handoff Appendix D).
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Card from '../components/Card.astro';
+import StatBlock from '../components/StatBlock.astro';
+import QuoteBlock from '../components/QuoteBlock.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FooterTicker from '../components/FooterTicker.astro';
+import {
+  editions, liveEdition, nextSerial, totalRaisedDisplay, totalPulled,
+  serial, UNITS_PER_EDITION,
+} from '../data/editions.js';
+
+const live = liveEdition();
+const releasedCount = editions.filter((e) => e.status !== 'VOTE').length;
+const seriesCapacity = editions.length * UNITS_PER_EDITION;
+const tilts = [-2, 1, -1, 2];
+
+const stats = [
+  { label: 'EDITIONS', value: serial(releasedCount), sub: 'And counting' },
+  { label: 'RAISED', value: totalRaisedDisplay(), sub: `Across ${releasedCount} causes` },
+  { label: 'BATS PULLED', value: String(totalPulled()), sub: `Of ${seriesCapacity} in series 1` },
+  { label: 'CARDS IN PLAY', value: String(totalPulled()), sub: 'Each numbered, each shipped' },
+];
+---
+<Base>
+  <main>
+    <Nav current="home" />
+
+    {/* HERO — the ONE stadium-black section on this page */}
+    <section class="hero">
+      <img class="hero-photo" src="/assets/lifestyle_dugout.png" alt="" />
+
+      <div class="hero-numeral" aria-hidden="true">{live.number}</div>
+
+      <div class="hero-corner-stamp">
+        ROOKIE CARD '26 ▸ ED. {live.number} ▸ {live.cause}
+      </div>
+
+      <div class="hero-copy">
+        <h1>ROOKIE CARD,<br />ROOKIE CAUSE.</h1>
+        <p class="hero-sub">
+          200 bats. 200 numbered cards. Documentary photography of the kid the
+          cause is for. The card ships in the box.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn-pull" href={`/editions/${live.number}`}>PULL NO. {nextSerial(live)} →</a>
+          <a class="btn-roster" href="#roster">SEE THE ROSTER</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <Card ed={live} size="lg" tilt={0} />
+      </div>
+    </section>
+
+    {/* THE ROSTER — 4-card binder */}
+    <section class="roster" id="roster">
+      <div class="roster-head">
+        <div>
+          <div class="roster-eyebrow">THE ROSTER ▸ SERIES 1</div>
+          <h2>Every card is a kid.</h2>
+        </div>
+        <div class="roster-note">
+          No glossy product. Real photographs. The kid the cause is for, on the
+          front. Stat line on the back. <em>Numbered out of 200.</em>
+        </div>
+      </div>
+      <div class="roster-binder">
+        {editions.map((ed, i) => (
+          <a href={ed.handle ? `/editions/${ed.number}` : '/the-set'} class="roster-card-link">
+            <Card ed={ed} size="sm" tilt={tilts[i]} />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* CAREER NUMBERS */}
+    <section class="stat-line">
+      <div class="stat-eyebrow">★ STATS ON THE BACK</div>
+      <h2 class="stat-heading">Career numbers.</h2>
+      <div class="stat-grid">
+        {stats.map((s) => <StatBlock label={s.label} value={s.value} sub={s.sub} />)}
+      </div>
+    </section>
+
+    <QuoteBlock />
+    <EmailCapture />
+    <FooterTicker />
+  </main>
+</Base>
+
+<style>
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    height: 820px;
+    background: var(--stadium-black);
+    overflow: hidden;
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--photo-hero);
+  }
+
+  .hero-numeral {
+    position: absolute;
+    right: -40px;
+    top: -80px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(280px, 56vw, 720px);
+    color: var(--powder);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    opacity: 0.92;
+  }
+
+  .hero-corner-stamp {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    background: var(--red);
+    color: var(--ink-on-red);
+    padding: 8px 14px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .hero-copy {
+    position: absolute;
+    left: 32px;
+    bottom: 48px;
+    max-width: 720px;
+    z-index: 2;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(44px, 6.9vw, 88px);
+    line-height: 0.95;
+    color: var(--hero-text);
+  }
+
+  .hero-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--hero-text-2);
+    max-width: 540px;
+    margin-top: 18px;
+  }
+
+  .hero-ctas {
+    margin-top: 26px;
+    display: flex;
+    gap: 12px;
+  }
+
+  .btn-pull {
+    display: inline-block;
+    background: var(--red);
+    color: var(--ink-on-red);
+    padding: 16px 24px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .btn-pull:hover { background: var(--red-dark); }
+
+  .btn-roster {
+    display: inline-block;
+    background: transparent;
+    color: var(--hero-text);
+    border: 2px solid var(--hero-text);
+    padding: 14px 22px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .hero-card {
+    position: absolute;
+    right: 64px;
+    bottom: 60px;
+    transform: rotate(2deg);
+    z-index: 3;
+  }
+
+  /* ── ROSTER ── */
+  .roster {
+    padding: 64px 48px;
+    background: var(--powder-2);
+    border-top: 2px solid var(--red);
+    border-bottom: 2px solid var(--red);
+    position: relative;
+  }
+
+  .roster-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 36px;
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 14px;
+    gap: 24px;
+  }
+
+  .roster-eyebrow {
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  .roster-head h2 {
+    font-size: clamp(34px, 4.4vw, 56px);
+    margin-top: 8px;
+  }
+
+  .roster-note {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--navy-2);
+    max-width: 380px;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .roster-binder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    justify-items: center;
+    padding: 20px 0;
+  }
+
+  .roster-card-link { display: block; }
+  .roster-card-link:hover { transform: translateY(-4px); transition: transform 0.15s ease; }
+
+  /* ── STAT LINE ── */
+  .stat-line {
+    padding: 52px 48px;
+    background: var(--powder);
+    border-bottom: 2px solid var(--red);
+  }
+
+  .stat-eyebrow {
+    font-family: var(--font-kinetic);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .stat-heading {
+    font-family: var(--font-slab);
+    font-size: clamp(36px, 4.4vw, 56px);
+    line-height: 0.95;
+    margin: 6px 0 24px;
+    color: var(--navy);
+    text-shadow: 3px 3px 0 var(--red);
+    text-transform: none;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  /* ── RESPONSIVE (handoff §8: binder 4→2→1, hero card stays visible) ── */
+  @media (max-width: 1100px) {
+    .roster-binder { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 96px 20px 48px;
+    }
+    .hero-copy { position: static; margin-top: 24px; max-width: 100%; }
+    .hero-card {
+      position: static;
+      transform: rotate(2deg);
+      margin: 40px auto 0;
+    }
+    .hero-corner-stamp { left: 20px; top: 20px; }
+    .roster-head { flex-direction: column; align-items: flex-start; }
+    .roster-note { text-align: left; }
+  }
+
+  @media (max-width: 600px) {
+    .roster-binder { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .roster, .stat-line { padding-left: 20px; padding-right: 20px; }
+    .hero-ctas { flex-direction: column; align-items: flex-start; }
+  }
+</style>

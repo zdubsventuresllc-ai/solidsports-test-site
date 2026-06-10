@@ -1,0 +1,125 @@
+---
+// STORY — short founders page (handoff §8): Vacaville, father & son,
+// built in the USA by Pure Sports Technologies (partner, not owned facility).
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import QuoteBlock from '../components/QuoteBlock.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FooterTicker from '../components/FooterTicker.astro';
+---
+<Base title="SOLID. — Story">
+  <main>
+    <Nav current="story" />
+
+    {/* the ONE stadium-black section on this page */}
+    <section class="story-hero">
+      <img class="story-photo" src="/assets/lifestyle_field.png" alt="" />
+      <div class="story-hero-copy">
+        <div class="story-eyebrow">FROM THE DUGOUT ▸ VACAVILLE, CALIFORNIA</div>
+        <h1>A FATHER, A SON,<br />AND A BINDER OF CARDS.</h1>
+      </div>
+    </section>
+
+    <section class="story-body">
+      <p class="story-lede">
+        We grew up ripping wax packs in the garage — sorting rookies on the
+        carpet, trading doubles at school, checking corners like they were
+        gold. The cards mattered because they were <em>numbered</em>. Because
+        somebody else wanted the one you had.
+      </p>
+      <p>
+        Solid started in Vacaville, California, with a father and son asking a
+        simple question: what if a bat brand worked the way a card set did?
+        Numbered runs. No reprints. A card in every box with a serial that
+        matches the bat in your hands.
+      </p>
+      <p>
+        And one more rule, the one that makes it Solid: every edition is
+        dedicated to a cause. Twenty-five dollars from every bat, totals
+        published, receipts on file. Not a portion of proceeds. A number you
+        can check.
+      </p>
+      <p>
+        The bats are built in the USA by our manufacturing partner,
+        <strong>Pure Sports Technologies</strong> — ASA and USSSA certified,
+        made to get ripped in a Tuesday-night league, not displayed in a case.
+        The card is the collectible. The bat is for swinging.
+      </p>
+    </section>
+
+    <QuoteBlock />
+    <EmailCapture />
+    <FooterTicker />
+  </main>
+</Base>
+
+<style>
+  .story-hero {
+    position: relative;
+    background: var(--stadium-black);
+    overflow: hidden;
+    min-height: 480px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .story-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--photo-hero);
+  }
+
+  .story-hero-copy {
+    position: relative;
+    z-index: 2;
+    padding: 80px 48px 48px;
+  }
+
+  .story-eyebrow {
+    font-family: var(--font-kinetic);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    background: var(--cream);
+    display: inline-block;
+    padding: 4px 10px;
+  }
+
+  .story-hero-copy h1 {
+    font-size: clamp(36px, 5.5vw, 72px);
+    color: var(--hero-text);
+    margin-top: 16px;
+  }
+
+  .story-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 24px;
+  }
+
+  .story-body p {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--navy-2);
+    margin-bottom: 24px;
+  }
+
+  .story-lede {
+    font-family: var(--font-serif) !important;
+    font-style: italic;
+    font-size: 22px !important;
+    color: var(--navy) !important;
+    line-height: 1.55 !important;
+  }
+
+  .story-body strong { color: var(--navy); }
+
+  @media (max-width: 600px) {
+    .story-hero-copy { padding: 56px 20px 32px; }
+    .story-body { padding: 48px 20px; }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import '../styles/tokens.css';
+
+const { title = 'SOLID. — Rookie Card, Rookie Cause', description = 'Numbered editions of 200 bats. Every bat ships with its numbered card. Every edition funds a cause — $25 a bat, receipts on file.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/brand/solid-bug.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Alfa+Slab+One&family=Bungee&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400;1,6..72,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* site-wide crosshatch texture over the powder ground */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--crosshatch);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  a { color: inherit; text-decoration: none; }
+  button { cursor: pointer; }
+  img { display: block; }
+</style>

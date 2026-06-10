@@ -1,0 +1,163 @@
+---
+// THE SET — archive as a card binder (handoff §8). Sold-out cards grayscale;
+// chase-card vote teaser.
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Card from '../components/Card.astro';
+import EmailCapture from '../components/EmailCapture.astro';
+import FooterTicker from '../components/FooterTicker.astro';
+import { editions, totalRaisedDisplay, setProgress } from '../data/editions.js';
+
+const tilts = [-2, 1, -1, 2];
+---
+<Base title="SOLID. — The Set">
+  <main>
+    <Nav current="the-set" />
+
+    {/* the ONE stadium-black section on this page */}
+    <section class="set-hero">
+      <div class="set-eyebrow">THE BINDER ▸ SERIES 1</div>
+      <h1>THE SET.</h1>
+      <p class="set-sub">
+        Every edition that has ever shipped, and the slot for the next one.
+        {totalRaisedDisplay()} raised. {setProgress()}.
+        <em>The set isn't done until the cause is.</em>
+      </p>
+    </section>
+
+    <section class="set-binder-wrap">
+      <div class="set-binder">
+        {editions.map((ed, i) => (
+          <div class="set-slot">
+            {ed.handle ? (
+              <a href={`/editions/${ed.number}`}>
+                <Card ed={ed} size="md" tilt={tilts[i]} grayscale={ed.status === 'SOLD'} />
+              </a>
+            ) : (
+              <Card ed={ed} size="md" tilt={tilts[i]} />
+            )}
+            <div class="set-caption">
+              <span class="set-caption-num">ED. {ed.number}</span>
+              <span class="set-caption-status">{ed.status === 'VOTE' ? 'VOTE OPEN' : ed.status}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* chase card vote teaser */}
+      <div class="vote-teaser">
+        <div class="vote-eyebrow">★ THE CHASE CARD</div>
+        <h2>Edition 004 doesn't exist yet. You pick what it fights for.</h2>
+        <p>
+          Every owner of an Edition 003 card gets one vote on the next cause.
+          The ballot opens when 003 sells out.
+        </p>
+      </div>
+    </section>
+
+    <EmailCapture />
+    <FooterTicker />
+  </main>
+</Base>
+
+<style>
+  .set-hero {
+    background: var(--stadium-black);
+    padding: 80px 48px 64px;
+  }
+
+  .set-eyebrow {
+    font-family: var(--font-kinetic);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    background: var(--cream);
+    display: inline-block;
+    padding: 4px 10px;
+  }
+
+  .set-hero h1 {
+    font-size: clamp(56px, 8vw, 110px);
+    color: var(--hero-text);
+    margin-top: 16px;
+  }
+
+  .set-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--hero-text-2);
+    max-width: 560px;
+    margin-top: 14px;
+  }
+
+  .set-binder-wrap {
+    padding: 64px 48px;
+    border-bottom: 2px solid var(--red);
+  }
+
+  .set-binder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 28px;
+    justify-items: center;
+  }
+
+  .set-slot { text-align: center; }
+
+  .set-caption {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--navy-2);
+  }
+
+  .set-caption-status { color: var(--red); }
+
+  .vote-teaser {
+    margin-top: 72px;
+    border: 2px solid var(--navy);
+    padding: 40px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .vote-eyebrow {
+    font-family: var(--font-kinetic);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--red);
+  }
+
+  .vote-teaser h2 {
+    font-size: clamp(24px, 3vw, 36px);
+    margin-top: 12px;
+  }
+
+  .vote-teaser p {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--navy-2);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1100px) {
+    .set-binder { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
+  }
+
+  @media (max-width: 600px) {
+    .set-hero { padding: 56px 20px 40px; }
+    .set-binder-wrap { padding: 48px 20px; }
+    .set-binder { grid-template-columns: 1fr; }
+    .vote-teaser { padding: 28px 20px; }
+  }
+</style>

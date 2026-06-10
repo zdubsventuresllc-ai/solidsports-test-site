@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Solid · Palette Development — 4 Stadium + 2 Rally×Cards</title>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bungee&family=Caveat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;1,6..72,300;1,6..72,400&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #18161f; color: #e9e6df; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root" data-screen-label="Palette Development"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx?v=1"></script>
+<script type="text/babel" src="palette-dev-v2.jsx?v=1"></script>
+<script type="text/babel" src="procard-stadium-home.jsx?v=1"></script>
+
+<script type="text/babel" data-presets="react">
+// ─────────────────────────────────────────────────────────────────────
+// PALETTES — 3 Procard × Stadium finalists
+//   1. Copper Field    — NEW. Black + copper, the original site's DNA
+//                        cranked up. Hero is the bat-handle / stone shot.
+//   2. Powder Inverted — KEEP. Vintage road-uniform, the only light ground.
+//   3. Pinstripe Navy  — KEEP, fixed. Yellow nameplates now read navy ink
+//                        instead of cream (was cream-on-yellow, unreadable).
+// ─────────────────────────────────────────────────────────────────────
+
+// All Procard × Stadium palettes share the same skeleton — only color shifts.
+// `ground` = 'dark' | 'light'  controls which ink to use for CTAs etc.
+// `accentInk` = ink color when typesetting ON TOP of accent (added so the
+//   yellow-accent palette doesn't render cream-on-yellow nameplates).
+
+const PROCARD_PALETTES = [
+  // 1 ─── COPPER FIELD — black + copper. The original site, lit on fire.
+  //
+  // Direct lift from the brief: hero photo is the bat-handle / stone shot
+  // (assets/copper_detail.png), copper accent #B5763E pulled straight off
+  // the wood. No B&W treatment on the hero — let the copper sing. Cards
+  // get aged-cream stock + bronze foil chrome instead of silver.
+  {
+    id: 'copperfield',
+    name: 'A · Copper Field',
+    sub: 'Black + copper + warm cream',
+    pitch: 'The original site\'s DNA, fully developed. Heritage, hand-finished, the wood is the hero.',
+    swatches: ['#0F0F0E', '#B5763E', '#7A4D27', '#E8D9B8', '#3A2A1C'],
+    palette: {
+      ground: 'dark',
+      bg: '#0F0F0E', bgAlt: '#1A1410', surface: '#26201A',
+      heroGround: '#0F0F0E',
+      heroPhoto: 'copper_detail',     // <- new. hero swap.
+      heroFilter: 'saturate(1.05) contrast(1.1) brightness(0.55)',
+      fg: '#E8D9B8', fg2: '#B8A584', fg3: '#7A6850',
+      accent: '#B5763E',              // copper. exact pull from the bat handle.
+      accentDark: '#7A4D27',
+      accentInk: '#0F0F0E',           // copper is light enough to need dark ink
+      cardAccent: '#B5763E',
+      heroNumeral: '#E8D9B8',         // cream numeral pops over warm copper-bat photo
+      cardStock: '#E8D9B8',           // aged card stock, slightly amber
+      chrome: '#C9A66A',              // bronze foil instead of silver
+      gold: '#D9A93A',                // brass stamp, distinct from accent
+      ctaInk: '#0F0F0E',              // dark ink on copper CTA
+      rosterA: '#B5763E',             // copper for ed.001
+      rosterB: '#3A2A1C',             // deep walnut for ed.002
+    },
+  },
+
+  // 2 ─── POWDER INVERTED — powder blue ground, navy ink, red accent
+  {
+    id: 'powder',
+    name: 'B · Powder Inverted',
+    sub: 'Powder ground + navy + red',
+    pitch: 'Vintage Cubs road uniform. Calmest of the family — the only light-ground option.',
+    swatches: ['#B5CFE8', '#14213D', '#C8201A', '#F2EBD8', '#D9A93A'],
+    palette: {
+      ground: 'light',
+      bg: '#B5CFE8', bgAlt: '#A4C0DD', surface: '#94B3D2',
+      heroGround: '#0F0F0E',     // hero stays black for contrast
+      fg: '#14213D', fg2: '#3A4660', fg3: '#6B7785',
+      accent: '#C8201A',         // baseball red
+      accentDark: '#8C1410',
+      accentInk: '#F2EBD8',      // cream ink reads on red
+      cardAccent: '#C8201A',
+      heroNumeral: '#B5CFE8',
+      cardStock: '#F2EBD8',
+      chrome: '#C9CDD3',
+      gold: '#D9A93A',
+      ctaInk: '#F2EBD8',
+      rosterA: '#D9A93A',
+      rosterB: '#14213D',
+    },
+  },
+
+  // 3 ─── PINSTRIPE NAVY — navy ground + cream + softball yellow
+  //   FIX: was rendering nameplate as cream-on-yellow (unreadable).
+  //   accentInk forces navy text wherever yellow is the background.
+  {
+    id: 'pinstripe',
+    name: 'C · Pinstripe Navy',
+    sub: 'Navy ground + cream + yellow (readable)',
+    pitch: 'Yankees-pinstripe heritage. Quiet, expensive — yellow nameplates now hold real text.',
+    swatches: ['#14213D', '#F4EEDC', '#F4D514', '#9F8050', '#3A4660'],
+    palette: {
+      ground: 'dark',
+      bg: '#14213D', bgAlt: '#1B2A4A', surface: '#243456',
+      heroGround: '#0F0F0E',
+      fg: '#F4EEDC', fg2: '#B8B0A0', fg3: '#7A7466',
+      accent: '#F4D514',         // softball yellow on navy
+      accentDark: '#B5A009',
+      accentInk: '#14213D',      // <- FIX. navy ink on yellow nameplates.
+      cardAccent: '#F4D514',
+      heroNumeral: '#F4D514',
+      cardStock: '#F4EEDC',
+      chrome: '#C9CDD3',
+      gold: '#9F8050',           // dulled brass — not competing with yellow
+      ctaInk: '#14213D',
+      rosterA: '#9F8050',
+      rosterB: '#3A4660',
+    },
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────
+// HEADER STRIP — for each artboard, a compact decision header above
+// the home page so the user can read what they're looking at fast.
+// ─────────────────────────────────────────────────────────────────────
+function PaletteHeader({ p, frame }) {
+  return (
+    <div style={{
+      width: 1280, background: '#14120F', color: '#F4EFE3',
+      fontFamily: "'IBM Plex Sans', system-ui, sans-serif",
+      padding: '20px 32px', display: 'grid', gridTemplateColumns: '1fr auto auto',
+      gap: 28, alignItems: 'center', borderBottom: '1px solid #2a2620',
+    }}>
+      <div>
+        <div style={{ fontFamily: "'Bungee', sans-serif", fontSize: 11, letterSpacing: '0.22em', color: '#7BC3DC' }}>
+          {frame}
+        </div>
+        <div style={{ fontFamily: "'Alfa Slab One', serif", fontSize: 32, lineHeight: 1.1, marginTop: 4 }}>
+          {p.name}
+        </div>
+        <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: 14, color: '#9F9A8C', marginTop: 4, maxWidth: 600 }}>
+          {p.pitch}
+        </div>
+      </div>
+      <div style={{ display: 'flex', gap: 6 }}>
+        {p.swatches.map((c, i) => (
+          <div key={i} style={{ width: 36, height: 36, background: c, border: '1px solid #2a2620' }} />
+        ))}
+      </div>
+      <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 10, color: '#7A7466', textAlign: 'right' }}>
+        {p.sub}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// ROOT
+// ─────────────────────────────────────────────────────────────────────
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Measured home heights (header + home content) — tight to actual content
+// so artboards don't show empty colored bands at the bottom.
+const PROCARD_HEIGHT = 2568;
+const RALLY_HEIGHT   = 2446;
+
+function App() {
+  return (
+    <window.DesignCanvas
+      title="Palette Development v2"
+      subtitle="Three Procard × Stadium finalists. Copper Field (new) + the two favorites — Powder Inverted + Pinstripe Navy (readability fixed)."
+      defaultZoom={0.34}
+    >
+      <window.DCSection
+        id="procard-stadium"
+        title="Procard × Stadium — Three Palettes"
+        subtitle="Same skeleton, three color stories. Copper Field carries the original site's DNA; Powder is the only light ground; Pinstripe is the quietest with the yellow-on-yellow problem fixed."
+        gap={64}
+      >
+        {PROCARD_PALETTES.map((entry) => (
+          <window.DCArtboard
+            key={entry.id}
+            id={`pc-${entry.id}`}
+            label={entry.name}
+            width={1280}
+            height={PROCARD_HEIGHT}
+          >
+            <div style={{ background: entry.palette.bg }}>
+              <PaletteHeader p={entry} frame="PROCARD × STADIUM" />
+              <window.ProcardStadiumHome palette={entry.palette} edition="003" />
+            </div>
+          </window.DCArtboard>
+        ))}
+      </window.DCSection>
+    </window.DesignCanvas>
+  );
+}
+
+root.render(<App />);
+</script>
+</body>
+</html>

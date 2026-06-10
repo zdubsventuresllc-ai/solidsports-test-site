@@ -1,0 +1,136 @@
+---
+// RECEIPTS — static disbursement log stub (handoff §9.5). Real rows land
+// per disbursement; placeholder rows derive from editions data.
+import Base from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import FooterTicker from '../components/FooterTicker.astro';
+import { editions, raisedDisplay, totalRaisedDisplay } from '../data/editions.js';
+
+const disbursed = editions.filter((e) => e.status !== 'VOTE');
+---
+<Base title="SOLID. — Receipts on File">
+  <main>
+    <Nav />
+
+    {/* the ONE stadium-black section on this page */}
+    <section class="receipts-hero">
+      <div class="receipts-eyebrow">★ THE LEDGER</div>
+      <h1>RECEIPTS ON FILE.</h1>
+      <p class="receipts-sub">
+        Every edition. Every dollar. Not a portion of proceeds — a number you
+        can check. {totalRaisedDisplay()} and counting.
+      </p>
+    </section>
+
+    <section class="receipts-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>EDITION</th>
+            <th>CAUSE</th>
+            <th>STATUS</th>
+            <th>RAISED</th>
+            <th>DISBURSEMENT</th>
+          </tr>
+        </thead>
+        <tbody>
+          {disbursed.map((ed) => (
+            <tr>
+              <td>NO. {ed.number}</td>
+              <td><a href={ed.causeUrl} target="_blank" rel="noopener">{ed.causeFull}</a></td>
+              <td class:list={[{ live: ed.status === 'LIVE' }]}>{ed.status === 'LIVE' ? 'IN PROGRESS' : 'COMPLETE'}</td>
+              <td>{raisedDisplay(ed)}</td>
+              <td>{ed.status === 'LIVE' ? 'AT SELLOUT' : 'RECEIPT PENDING UPLOAD'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="receipts-note">
+        Disbursement receipts are posted here as each edition closes out.
+        Numbers update with every pull.
+      </p>
+    </section>
+
+    <FooterTicker />
+  </main>
+</Base>
+
+<style>
+  .receipts-hero {
+    background: var(--stadium-black);
+    padding: 80px 48px 64px;
+  }
+
+  .receipts-eyebrow {
+    font-family: var(--font-kinetic);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--red);
+    background: var(--cream);
+    display: inline-block;
+    padding: 4px 10px;
+  }
+
+  .receipts-hero h1 {
+    font-size: clamp(44px, 7vw, 96px);
+    color: var(--hero-text);
+    margin-top: 16px;
+  }
+
+  .receipts-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--hero-text-2);
+    max-width: 540px;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  .receipts-table-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 64px 24px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+  }
+
+  th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--navy-3);
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--navy);
+    font-weight: 500;
+  }
+
+  td {
+    padding: 14px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--navy);
+    border-bottom: 1px solid var(--powder-3);
+  }
+
+  td a { text-decoration: underline; }
+  td.live { color: var(--red); }
+
+  .receipts-note {
+    margin-top: 24px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--navy-2);
+  }
+
+  @media (max-width: 700px) {
+    .receipts-hero { padding: 56px 20px 40px; }
+    .receipts-table-wrap { padding: 40px 12px; overflow-x: auto; }
+    td, th { padding: 10px 8px; font-size: 11px; }
+  }
+</style>

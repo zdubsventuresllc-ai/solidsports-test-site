@@ -1,0 +1,21 @@
+---
+// "The Period" lockup (handoff §2) — CSS over SVG text.
+// Period is ALWAYS red, except on red grounds where it flips to navy.
+const { ground = 'light', size = '20px' } = Astro.props; // light | dark | red
+const ink = ground === 'light' ? 'var(--navy)' : 'var(--cream)';
+const dot = ground === 'red' ? 'var(--navy)' : 'var(--red)';
+---
+<span class="logo" style={`--logo-ink:${ink}; --logo-dot:${dot}; --logo-size:${size};`}>SOLID<span class="logo-dot">.</span></span>
+
+<style>
+  .logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: var(--logo-size);
+    color: var(--logo-ink);
+    line-height: 1;
+  }
+  .logo-dot { color: var(--logo-dot); }
+</style>

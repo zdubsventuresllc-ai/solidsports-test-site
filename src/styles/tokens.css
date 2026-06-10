@@ -1,0 +1,126 @@
+/* ════════════════════════════════════════════════════════════════
+   SOLID — Design Tokens
+   Procard × Stadium · Powder Inverted · v1.0
+   Import:  <link rel="stylesheet" href="tokens.css">
+   Fonts:   Oswald 400-700 · Alfa Slab One · Bungee · Newsreader ital
+            IBM Plex Sans 300-700 · IBM Plex Mono 400-600  (Google Fonts)
+   ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── GROUND (powder — the brand color) ── */
+  --powder:        #B5CFE8;   /* page ground */
+  --powder-2:      #A4C0DD;   /* alt sections, nav */
+  --powder-3:      #94B3D2;   /* deepest tint, wells */
+
+  /* ── INK (navy) ── */
+  --navy:          #14213D;   /* primary text on powder */
+  --navy-2:        #3A4660;   /* secondary text */
+  --navy-3:        #6B7785;   /* captions, disabled */
+
+  /* ── ACTION (baseball red — rationed) ── */
+  --red:           #C8201A;   /* CTAs, nameplates, LIVE badges */
+  --red-dark:      #8C1410;   /* hover, gradient end */
+  --ink-on-red:    #F2EBD8;   /* the ONLY text color on red */
+
+  /* ── ARTIFACT (card materials) ── */
+  --cream:         #F2EBD8;   /* card stock */
+  --gold:          #D9A93A;   /* foil stamps, RC badge, ed.001 */
+  --chrome:        #C9CDD3;   /* foil borders */
+
+  /* ── STADIUM (hero only) ── */
+  --stadium-black: #0F0F0E;   /* hero ground — ONE per page max */
+  --hero-text:     #F5F2E8;   /* text over hero photo */
+  --hero-text-2:   #C8C4B5;
+
+  /* ── EDITION COLORS (card nameplates per release) ── */
+  --ed-001:        #D9A93A;   /* GLOVES UP — gold */
+  --ed-002:        #14213D;   /* HOMEFRONT — navy */
+  --ed-003:        #C8201A;   /* ST. JUDE — red (current) */
+
+  /* ── TYPE ── */
+  --font-display:  'Oswald', 'Anton', sans-serif;          /* 700 uppercase */
+  --font-slab:     'Alfa Slab One', serif;                  /* card voice */
+  --font-kinetic:  'Bungee', sans-serif;                    /* stamps, CTAs */
+  --font-serif:    'Newsreader', Georgia, serif;            /* italic editorial */
+  --font-body:     'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono:     'IBM Plex Mono', monospace;              /* serials, stats */
+
+  --track-stamp:   0.18em;    /* Bungee letter-spacing range .16–.22em */
+  --track-display: 0.005em;
+
+  /* ── SPACING (8pt) ── */
+  --s-1: 4px;  --s-2: 8px;   --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px;  --s-7: 48px; --s-8: 64px;
+  --s-9: 80px; --s-10: 96px;
+
+  /* ── RADII — flat brand, cards are sharp ── */
+  --radius: 0;
+
+  /* ── FOIL GRADIENTS ── */
+  --foil-chrome: linear-gradient(135deg, var(--chrome), #fff 25%, var(--chrome) 50%, #fff 75%, var(--chrome));
+  --foil-holo:   conic-gradient(from 0deg, var(--gold), var(--chrome), var(--gold), var(--chrome), var(--gold));
+  --plate-red:   linear-gradient(180deg, var(--red), var(--red-dark));
+
+  /* ── TEXTURE ── */
+  --scanlines:   repeating-linear-gradient(0deg, rgba(0,0,0,0.15) 0 1px, transparent 1px 3px);
+  --crosshatch:  repeating-linear-gradient(45deg, transparent 0 18px, rgba(0,0,0,0.025) 18px 19px),
+                 repeating-linear-gradient(-45deg, transparent 0 18px, rgba(0,0,0,0.025) 18px 19px);
+
+  /* ── SHADOW ── */
+  --shadow-card: 0 8px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.6) inset;
+
+  /* ── PHOTO TREATMENTS ── */
+  --photo-doc:   grayscale(1) contrast(1.25) brightness(0.92);  /* cards */
+  --photo-hero:  grayscale(1) contrast(1.3) brightness(0.55);   /* hero */
+}
+
+/* ── SEMANTIC BASICS ───────────────────────────────────────────── */
+body {
+  background: var(--powder);
+  color: var(--navy);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--track-display);
+  line-height: 0.95;
+  color: var(--navy);
+}
+
+.stat, .serial { font-family: var(--font-mono); }
+.nameplate, .stat-number { font-family: var(--font-slab); }
+.editorial { font-family: var(--font-serif); font-style: italic; }
+
+.stamp, .eyebrow, .ticker {
+  font-family: var(--font-kinetic);
+  text-transform: uppercase;
+  letter-spacing: var(--track-stamp);
+}
+
+.btn-primary {
+  background: var(--red);
+  color: var(--ink-on-red);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border: none;
+  padding: 16px 24px;
+  cursor: pointer;
+}
+.btn-primary:hover { background: var(--red-dark); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--navy);
+  border: 2px solid var(--navy);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  padding: 14px 22px;
+  cursor: pointer;
+}

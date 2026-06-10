@@ -1,0 +1,212 @@
+---
+// The card IS the brand — faithful port of PaletteCard (handoff Appendix C).
+// cream stock → chrome-foil border → photo region (74%, B&W doc, scanlines)
+// → hologram corner → edition stamp → rotated status stamp → gradient
+// nameplate → SOLID bug on the top edge.
+import { serialLine, raisedDisplay } from '../data/editions.js';
+
+const {
+  ed,            // edition object from editions.js
+  size = 'md',   // lg 320 · md 260 · sm 200
+  tilt = 0,
+  sn,            // override serial line (e.g. hero card)
+  stat,          // override RAISED stat
+  grayscale = false, // sold-out treatment on /the-set
+} = Astro.props;
+
+const w = size === 'lg' ? 320 : size === 'sm' ? 200 : 260;
+const h = Math.round(w * 1.4);
+
+// §5 rule 4: text on gold is black, never cream-on-gold
+const isGold = ed.accent.toLowerCase() === '#d9a93a';
+const plateInk = isGold ? 'var(--stadium-black)' : 'var(--cream)';
+// red gets its locked dark partner; other accents darken toward black
+const accentDark = ed.accent.toLowerCase() === '#c8201a'
+  ? 'var(--red-dark)'
+  : `color-mix(in srgb, ${ed.accent} 72%, black)`;
+
+const snText = sn ?? serialLine(ed);
+const statText = stat ?? raisedDisplay(ed);
+const nameplateSize = Math.round(w / 14);
+---
+<div
+  class:list={['card', { 'card-grayscale': grayscale }]}
+  style={`--cw:${w}px; --ch:${h}px; --tilt:${tilt}deg; --card-accent:${ed.accent}; --card-accent-dark:${accentDark}; --plate-ink:${plateInk}; --nameplate-size:${nameplateSize}px;`}
+>
+  <div class="card-foil">
+    <div class="card-accent-frame">
+      <div class="card-face">
+        <div class="card-photo">
+          <img src={ed.subjectImage} alt={`Edition ${ed.number} — ${ed.cause}`} loading="lazy" />
+          <div class="card-scanlines"></div>
+          <div class="card-holo"></div>
+          <div class="card-ed-stamp">ED. {ed.number}</div>
+          <div class="card-status-stamp">{ed.statusStamp}</div>
+        </div>
+        <div class="card-nameplate">
+          <div class="card-cause">{ed.cause}</div>
+          <div class="card-stats">
+            <div>
+              <div class="card-stat-label">SN</div>
+              <div class="card-stat-value">{snText}</div>
+            </div>
+            <div class="card-stat-right">
+              <div class="card-stat-label">RAISED</div>
+              <div class="card-stat-value">{statText}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-bug">★ SOLID<span class="card-bug-dot">.</span> ★</div>
+</div>
+
+<style>
+  .card {
+    position: relative;
+    width: var(--cw);
+    height: var(--ch);
+    transform: rotate(var(--tilt));
+    background: var(--cream);
+    box-shadow: var(--shadow-card);
+    padding: 9px;
+    font-family: var(--font-body);
+    flex-shrink: 0;
+  }
+
+  .card-grayscale { filter: grayscale(1) opacity(0.82); }
+
+  .card-foil {
+    position: absolute;
+    inset: 4px;
+    background: var(--foil-chrome);
+    padding: 2px;
+  }
+
+  .card-accent-frame {
+    width: 100%;
+    height: 100%;
+    background: var(--card-accent);
+    padding: 4px;
+  }
+
+  .card-face {
+    width: 100%;
+    height: 100%;
+    background: var(--powder);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-photo {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 74%;
+    background: linear-gradient(180deg, var(--powder-3), var(--powder));
+    overflow: hidden;
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: var(--photo-doc);
+  }
+
+  .card-scanlines {
+    position: absolute;
+    inset: 0;
+    background: var(--scanlines);
+    pointer-events: none;
+  }
+
+  .card-holo {
+    position: absolute;
+    top: 6px; right: 6px;
+    width: 28px; height: 28px;
+    background: var(--foil-holo);
+    border: 1px solid var(--navy);
+    opacity: 0.85;
+  }
+
+  .card-ed-stamp {
+    position: absolute;
+    top: 6px; left: 6px;
+    background: var(--card-accent);
+    color: var(--plate-ink);
+    padding: 2px 8px;
+    font-family: var(--font-kinetic);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+  }
+
+  .card-status-stamp {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    transform: rotate(-12deg);
+    background: var(--gold);
+    color: var(--stadium-black);
+    padding: 3px 10px;
+    font-family: var(--font-slab);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    border: 1.5px solid var(--stadium-black);
+  }
+
+  .card-nameplate {
+    position: absolute;
+    top: 74%; bottom: 0; left: 0; right: 0;
+    padding: 6px 10px;
+    background: linear-gradient(180deg, var(--card-accent), var(--card-accent-dark));
+    color: var(--plate-ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-cause {
+    font-family: var(--font-slab);
+    font-size: var(--nameplate-size);
+    line-height: 1.0;
+    letter-spacing: 0.005em;
+  }
+
+  .card-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    padding-top: 4px;
+  }
+
+  .card-stat-right { text-align: right; }
+
+  .card-stat-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    opacity: 0.85;
+    letter-spacing: 0.06em;
+  }
+
+  .card-stat-value {
+    font-family: var(--font-kinetic);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .card-bug {
+    position: absolute;
+    top: -10px; left: 12px;
+    background: var(--navy);
+    color: var(--powder);
+    padding: 2px 10px;
+    font-family: var(--font-kinetic);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    border: 1.5px solid var(--powder);
+    transform: rotate(-2deg);
+  }
+
+  .card-bug-dot { color: var(--red); }
+</style>

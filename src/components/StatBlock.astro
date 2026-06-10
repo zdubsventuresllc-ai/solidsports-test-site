@@ -1,0 +1,57 @@
+---
+// Career Numbers foil stat block (handoff Appendix D stat line).
+const { label, value, sub } = Astro.props;
+---
+<div class="stat-foil">
+  <div class="stat-accent">
+    <div class="stat-inner">
+      <div class="stat-label">{label}</div>
+      <div class="stat-value">{value}</div>
+      <div class="stat-sub">{sub}</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .stat-foil {
+    background: var(--foil-chrome);
+    padding: 2px;
+  }
+
+  .stat-accent {
+    background: var(--red);
+    padding: 3px;
+    height: 100%;
+  }
+
+  .stat-inner {
+    background: var(--powder-2);
+    padding: 16px;
+    color: var(--navy);
+    height: 100%;
+  }
+
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--navy-3);
+  }
+
+  .stat-value {
+    font-family: var(--font-slab);
+    font-size: clamp(36px, 4vw, 52px);
+    line-height: 1.0;
+    color: var(--navy);
+    margin-top: 6px;
+    text-shadow: 2px 2px 0 var(--red-dark);
+  }
+
+  .stat-sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--navy-2);
+    margin-top: 6px;
+  }
+</style>

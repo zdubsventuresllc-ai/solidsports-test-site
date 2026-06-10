@@ -1,0 +1,53 @@
+---
+// Founders' red pull-quote section (handoff Appendix D "FROM THE DUGOUT").
+const {
+  eyebrow = "FROM THE DUGOUT ▸ FOUNDERS' NOTE",
+  quote = '"We grew up trading cards. Now the cards trade for kids. The set isn\'t done until the cause is."',
+  attribution = "— Z & Z, FOUNDERS · VACAVILLE CA",
+} = Astro.props;
+---
+<section class="quote-block">
+  <div class="quote-eyebrow">{eyebrow}</div>
+  <div class="quote-text">{quote}</div>
+  <div class="quote-attribution">{attribution}</div>
+</section>
+
+<style>
+  .quote-block {
+    background: var(--red);
+    color: var(--ink-on-red);
+    padding: 80px 48px;
+  }
+
+  .quote-eyebrow {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  .quote-text {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(28px, 4.4vw, 56px);
+    line-height: 1.1;
+    font-weight: 300;
+    max-width: 1000px;
+    text-wrap: balance;
+  }
+
+  .quote-attribution {
+    margin-top: 28px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .quote-block { padding: 56px 20px; }
+  }
+</style>
